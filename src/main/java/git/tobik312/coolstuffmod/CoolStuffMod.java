@@ -24,8 +24,8 @@ public class CoolStuffMod {
 	public static CommonProxy proxy;
     
     //
-    //
-	//CreativeModCustomTab
+    //CreativeModCustomTab
+	//
     public static CreativeTabs creativeTab = new CreativeTabs("coolstuff"){
 
     	//TabIcon

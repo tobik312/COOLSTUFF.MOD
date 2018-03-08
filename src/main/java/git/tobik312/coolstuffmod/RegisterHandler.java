@@ -16,8 +16,14 @@ public class RegisterHandler {
 	}
 	
 	@SubscribeEvent
-	public static void registerItems(ModelRegistryEvent event) {
-		//ModItems.registerModels();
+	public static void onModelRegister(ModelRegistryEvent event){
+		
+		for(Item item : ModItems.ITEMS){
+			if(item instanceof CustomModel){
+				((CustomModel) item).registerModels();
+			}
+		}
+		
 	}
 
 }
