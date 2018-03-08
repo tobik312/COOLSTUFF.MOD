@@ -40,11 +40,10 @@ public class CoolStuffMod {
 		}
 	
     };
+    //
     
-    //CustomItems
-    public static final Item cigaretteItem = (Item) new ItemBuilder("Cigarette",20);
+    //Items
 
-    
     //
 
 }
