@@ -1,5 +1,6 @@
-package git.tobik312.coolstuffmod;
+package git.tobik312.coolstuffmod.items;
 
+import git.tobik312.coolstuffmod.CoolStuffMod;
 import net.minecraft.item.Item;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -10,6 +11,7 @@ public class ItemBuilder extends Item {
 		setUnlocalizedName(CoolStuffMod.MODID+"_"+name);
 		setMaxStackSize(maxSize);
 		setRegistryName(name);
+		ModItems.ITEMS.add(this);
 	}
 	
 	public void register(IForgeRegistry<Item> registry){
