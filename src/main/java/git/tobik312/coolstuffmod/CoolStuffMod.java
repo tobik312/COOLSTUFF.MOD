@@ -8,6 +8,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -42,12 +43,7 @@ public class CoolStuffMod {
     
     //CustomItems
     public static final Item cigaretteItem = (Item) new ItemBuilder("Cigarette",20);
-    
-    //RegisterItems
-    @SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(cigaretteItem);
-    }
+
     
     //
 

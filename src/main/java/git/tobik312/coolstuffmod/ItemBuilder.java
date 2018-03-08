@@ -9,7 +9,6 @@ public class ItemBuilder extends Item {
 		setUnlocalizedName(CoolStuffMod.MODID+"_"+name);
 		setMaxStackSize(maxSize);
 		setRegistryName(name);
-		new ItemRegisterEvent((Item) this);
 	}
 
 }
