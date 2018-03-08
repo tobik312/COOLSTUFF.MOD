@@ -19,16 +19,16 @@ public class CoolStuffMod {
     public static final String NAME = "Cool stuff mod";
     public static final String VERSION = "0.1";
     
-    
+    //CreativeModCustomTab
     public static CreativeTabs creativeTab = new CreativeTabs("coolstuff"){
 
-    	//Ikonka
+    	//TabIcon
 		@Override
 		public ItemStack getTabIconItem() {
 			return new ItemStack(Items.APPLE);
 		}
 		
-		//Nazwa
+		//TabName
 		@Override
 		public String getTranslatedTabLabel(){
 			return "Cool stuff";
@@ -36,6 +36,9 @@ public class CoolStuffMod {
 	
     };
     
+    //CustomItems
     public static final ItemBuilder cigaretteItem = new ItemBuilder("Cigarette",20);
+    
+    //
 
 }
