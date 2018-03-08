@@ -36,22 +36,6 @@ public class CoolStuffMod {
 	
     };
     
-    
-    
-    
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent e){
-    	
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent e){
-    	
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent e){
-    	
-    }
+    public static final ItemBuilder cigaretteItem = new ItemBuilder("Cigarette",20);
 
 }
