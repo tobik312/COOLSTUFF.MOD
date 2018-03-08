@@ -4,12 +4,12 @@ import net.minecraft.item.Item;
 
 public class ItemBuilder extends Item {
 	
-	public ItemBuilder(String name,int maxSize,String textureName){
+	public ItemBuilder(String name,int maxSize){
 		setCreativeTab(CoolStuffMod.creativeTab);
-		setUnlocalizedName(name);
+		setUnlocalizedName(CoolStuffMod.MODID+"_"+name);
 		setMaxStackSize(maxSize);
 		setRegistryName(name);
-		setTextureName(CoolStuffMod.MODID+":"+textureName+".png");
+		new ItemRegisterEvent((Item) this);
 	}
 
 }
