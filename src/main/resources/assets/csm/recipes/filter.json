@@ -1,0 +1,14 @@
+{
+	"type":"minecraft:crafting_shapeless",
+    "ingredients":
+    [
+    	{
+            "item":"minecraft:wool"
+        }
+	],
+	"result":
+	{
+		"item":"csm:filter",
+		"count":20
+	}
+}
