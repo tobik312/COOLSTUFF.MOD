@@ -1,6 +1,7 @@
 {
 	"parent": "item/generated",
-	"textures": {
+	"textures":
+	{
 		"layer0": "csm:items/cigarette_paper"
 	}
 }
