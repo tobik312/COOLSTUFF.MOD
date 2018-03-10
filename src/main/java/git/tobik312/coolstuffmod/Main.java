@@ -3,6 +3,7 @@ package git.tobik312.coolstuffmod;
 import git.tobik312.coolstuffmod.init.ModItems;
 import git.tobik312.coolstuffmod.proxy.CommonProxy;
 import git.tobik312.coolstuffmod.util.Reference;
+import git.tobik312.coolstuffmod.util.handlers.SmeltingHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
@@ -43,7 +44,7 @@ public class Main {
 	
 	@EventHandler
 	public static void init(FMLInitializationEvent event){
-		
+		SmeltingHandler.registerSmelting();
 	}
 
 	@EventHandler

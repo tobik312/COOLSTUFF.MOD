@@ -14,5 +14,6 @@ public class ModItems {
 	public static final Item CIGARETTE_PAPER = new ItemBase("cigarette_paper", 32);
 	public static final Item FILTER = new ItemBase("filter", 16);
 	public static final Item TOBACCO_LEAF = new ItemBase("tobacco_leaf", 64);
+	public static final Item DRIED_TOBACCO_LEAF = new ItemBase("dried_tobacco_leaf", 64);
 	
 }
