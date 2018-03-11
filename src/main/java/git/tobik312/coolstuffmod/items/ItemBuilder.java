@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 public class ItemBuilder extends Item implements CustomModel{
 	
 	public ItemBuilder(String name,int maxSize){
-		setCreativeTab(CoolStuffMod.CREATIVETAB);
+		setCreativeTab(CoolStuffMod.creativeTab);
 		setUnlocalizedName(name);
 		setMaxStackSize(maxSize);
 		setRegistryName(name);
