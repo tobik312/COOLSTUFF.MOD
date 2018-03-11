@@ -1,7 +1,6 @@
 {
 	"parent": "item/generated",
-	"textures":
-	{
+	"textures":	{
 		"layer0": "csm:items/dried_tobacco_leaf"
 	}
 }
