@@ -9,6 +9,6 @@ public class ModItems {
 	
 	public static List<Item> ITEMS = new ArrayList<Item>();
 	
-	public static Item cigaretteItem = (Item) new ItemBuilder("cigarette",20);
+	public static Item CIGARETTE = (Item) new ItemBuilder("cigarette",1);
 
 }
