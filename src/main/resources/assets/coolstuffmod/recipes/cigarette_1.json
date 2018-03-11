@@ -1,0 +1,29 @@
+{
+	"type":"minecraft:crafting_shaped",
+	"pattern":
+	[
+		"PPP",
+		"FLL",
+		"PPP"
+	],
+	"key":
+	{
+		"P":
+		{
+			"item":"csm:cigarette_paper"
+		},
+		"F":
+		{
+			"item":"csm:filter"
+		},
+		"L":
+		{
+			"item":"csm:dried_tobacco_leaf"
+		}
+	},
+	"result":
+	{
+		"item":"csm:cigarette",
+		"count":1
+	}
+}
