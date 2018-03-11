@@ -1,5 +1,9 @@
+container.drying_rack=Drying rack
+
 item.cigarette.name=Cigarette
 item.cigarette_paper.name=Cigarette paper
 item.filter.name=Filter
 item.tobacco_leaf.name=Tobacco leaf
 item.dried_tobacco_leaf.name=Dried tobacco leaf
+
+tile.drying_rack.name=Drying rack
