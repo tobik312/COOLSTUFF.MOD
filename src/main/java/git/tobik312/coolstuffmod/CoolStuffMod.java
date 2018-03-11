@@ -1,9 +1,9 @@
 package git.tobik312.coolstuffmod;
 
+import git.tobik312.coolstuffmod.items.ModItems;
 import git.tobik312.coolstuffmod.proxy.CommonProxy;
 import git.tobik312.coolstuffmod.utils.Reference;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -24,7 +24,7 @@ public class CoolStuffMod {
     	//TabIcon
 		@Override
 		public ItemStack getTabIconItem() {
-			return new ItemStack(Items.APPLE);
+			return new ItemStack(ModItems.CIGARETTE);
 		}
 		
 		//TabName

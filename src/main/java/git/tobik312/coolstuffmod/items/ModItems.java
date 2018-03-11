@@ -9,6 +9,10 @@ public class ModItems {
 	
 	public static List<Item> ITEMS = new ArrayList<Item>();
 	
-	public static Item cigaretteItem = (Item) new ItemBuilder("cigarette",20);
+	public static Item CIGARETTE = (Item) new ItemBuilder("cigarette",1);
+	public static Item CIGARETTE_PAPER = (Item) new ItemBuilder("cigarette_paper",32);
+	public static Item FILTER = (Item) new ItemBuilder("filter",16);
+	public static Item TOBACCO_LEAF = (Item) new ItemBuilder("tobacco_leaf");
+	public static Item DRIED_TOBACCO_LEAF = (Item) new ItemBuilder("dried_tobacco_leaf");
 
 }

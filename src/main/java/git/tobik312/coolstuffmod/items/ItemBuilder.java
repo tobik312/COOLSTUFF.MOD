@@ -14,6 +14,10 @@ public class ItemBuilder extends Item implements CustomModel{
 		ModItems.ITEMS.add(this);
 	}
 	
+	public ItemBuilder(String name){
+		new ItemBuilder(name, 64);
+	}
+	
 	public void registerModels() {
 		CoolStuffMod.proxy.registerItemRenderer(this, 0, "inventory");
 	}
