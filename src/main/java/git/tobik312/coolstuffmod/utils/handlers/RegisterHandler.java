@@ -13,16 +13,22 @@ public class RegisterHandler {
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
+		
 		event.getRegistry().registerAll(ModItems.ITEMS.toArray(new Item[0]));
+		
 	}
 	
 	@SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent event){
 		
 		for(Item item : ModItems.ITEMS){
+			
 			if(item instanceof CustomModel){
+				
 				((CustomModel) item).registerModels();
+				
 			}
+			
 		}
 		
 	}

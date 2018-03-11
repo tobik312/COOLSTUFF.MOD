@@ -7,15 +7,19 @@ import net.minecraft.item.Item;
 public class ItemBuilder extends Item implements CustomModel{
 	
 	public ItemBuilder(String name,int maxSize){
+		
 		setCreativeTab(CoolStuffMod.CREATIVETAB);
 		setUnlocalizedName(name);
 		setMaxStackSize(maxSize);
 		setRegistryName(name);
 		ModItems.ITEMS.add(this);
+		
 	}
 	
 	public void registerModels() {
+		
 		CoolStuffMod.proxy.registerItemRenderer(this, 0, "inventory");
+		
 	}
 	
 }
