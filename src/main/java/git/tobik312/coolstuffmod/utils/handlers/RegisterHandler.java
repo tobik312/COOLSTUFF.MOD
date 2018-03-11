@@ -1,5 +1,6 @@
-package git.tobik312.coolstuffmod;
+package git.tobik312.coolstuffmod.utils.handlers;
 
+import git.tobik312.coolstuffmod.CustomModel;
 import git.tobik312.coolstuffmod.items.ModItems;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
