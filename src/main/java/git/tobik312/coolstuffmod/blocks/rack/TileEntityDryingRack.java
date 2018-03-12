@@ -1,5 +1,6 @@
 package git.tobik312.coolstuffmod.blocks.rack;
 
+import git.tobik312.coolstuffmod.items.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -256,26 +257,27 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	
 	private boolean canDry() {
 		
-		if(((ItemStack)this.inventory.get(0)).isEmpty()) return false;
-		else {
+		return true;
+		/*
+		ItemStack input = (ItemStack)this.inventory.get(0);
+		
+		if(input == new ItemStack(ModItems.TOBACCO_LEAF)) {
 			
-			ItemStack result = DryingRackRecipes.getInstance().getDryingResult((ItemStack)this.inventory.get(0));
-			if(result.isEmpty()) return false;
-			else {
-				
-				ItemStack output = (ItemStack)this.inventory.get(2);
-				if(output.isEmpty()) return true;
-				
-				else if(!output.isItemEqual(result)) return false;
-				
-				else if(output.getCount() + result.getCount() <= this.getInventoryStackLimit() &&  output.getCount() + result.getCount() <= output.getMaxStackSize()) return true;
-				
-				else return output.getCount() + result.getCount() <= result.getMaxStackSize();
-				
-			}
+			ItemStack result = new ItemStack(ModItems.DRIED_TOBACCO_LEAF);
+			ItemStack output = (ItemStack)this.inventory.get(2);
+			
+			if(output.isEmpty()) return true;
+			
+			else if(!output.isItemEqual(result)) return false;
+			
+			else if(output.getCount() + result.getCount() <= this.getInventoryStackLimit() &&  output.getCount() + result.getCount() <= output.getMaxStackSize()) return true;
+			
+			else return output.getCount() + result.getCount() <= result.getMaxStackSize();
 			
 		}
 		
+		return false;
+		*/
 	}
 	
 	public void dryItem() {
@@ -283,10 +285,10 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		if(this.canDry()) {
 			
 			ItemStack input = (ItemStack)this.inventory.get(0);
-			ItemStack result = DryingRackRecipes.getInstance().getDryingResult(input);
+			ItemStack result = new ItemStack(ModItems.DRIED_TOBACCO_LEAF);
 			ItemStack output = (ItemStack)this.inventory.get(2);
 			
-			if(output.isEmpty()) this.inventory.set(2, result.copy());
+			if(output.isEmpty()) this.inventory.set(2, new ItemStack(ModItems.DRIED_TOBACCO_LEAF, 1));
 			else if(output.getItem() == result.getItem()) output.grow(result.getCount());
 			
 			input.shrink(1);

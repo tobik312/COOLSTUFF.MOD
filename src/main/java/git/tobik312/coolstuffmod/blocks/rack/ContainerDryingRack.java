@@ -2,6 +2,7 @@ package git.tobik312.coolstuffmod.blocks.rack;
 
 import git.tobik312.coolstuffmod.blocks.rack.slots.FuelSlotDryingRack;
 import git.tobik312.coolstuffmod.blocks.rack.slots.OutputSlotDryingRack;
+import git.tobik312.coolstuffmod.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -103,7 +104,8 @@ public class ContainerDryingRack extends Container {
 			
 			else if(index != 1 && index != 0) {
 				
-				if(!DryingRackRecipes.getInstance().getDryingResult(stack1).isEmpty()) {
+				//!DryingRackRecipes.getInstance().getDryingResult(stack1).isEmpty()
+				if(stack1 == new ItemStack(ModItems.DRIED_TOBACCO_LEAF)) {
 					
 					if(!this.mergeItemStack(stack1, 0, 1, false)) {
 						
