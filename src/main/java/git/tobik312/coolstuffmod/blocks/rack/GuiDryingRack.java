@@ -24,7 +24,7 @@ public class GuiDryingRack extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		
 		String tileName = this.tileentity.getDisplayName().getUnformattedText();
-		this.fontRenderer.drawString(tileName, (this.xSize / 2 - this.fontRenderer.getStringWidth(tileName) / 2), 8, 4210752);
+		this.fontRenderer.drawString(tileName, (this.xSize / 2 - this.fontRenderer.getStringWidth(tileName) / 2), 5, 4210752);
 		this.fontRenderer.drawString(this.player.getDisplayName().getUnformattedText(), 8, 73, 4210752);
 		
 	}
@@ -38,7 +38,7 @@ public class GuiDryingRack extends GuiContainer {
 		if(TileEntityDryingRack.isBurning(tileentity)) {
 			
 			int k = this.getBurnLeftScaled(13);
-			this.drawTexturedModalRect(this.guiLeft + 56, this.guiTop + 56 + 12 - k, 176, 12 - k, 14, k + 1);
+			this.drawTexturedModalRect(this.guiLeft + 57, this.guiTop + 37 + 12 - k, 176, 12 - k, 14, k + 1);
 			
 		}
 		

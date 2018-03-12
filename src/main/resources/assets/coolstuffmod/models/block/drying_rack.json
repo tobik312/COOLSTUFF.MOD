@@ -1,9 +1,9 @@
 {
     "parent": "block/orientable",
     "textures": {
-        "top": "coolstuff:blocks/drying_rack_top",
+        "up": "coolstuff:blocks/drying_rack_top",
         "front": "coolstuffmod:blocks/drying_rack_front_off",
         "side": "coolstuffmod:blocks/drying_rack_side",
-        "bottom": "coolstuffmod:blocks/drying_rack_bottom"
+        "down": "coolstuffmod:blocks/drying_rack_bottom"
     }
 }

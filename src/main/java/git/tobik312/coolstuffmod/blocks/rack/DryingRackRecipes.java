@@ -23,7 +23,7 @@ public class DryingRackRecipes {
 	
 	private DryingRackRecipes() {
 		
-		addDryingRecipe(new ItemStack(ModItems.DRIED_TOBACCO_LEAF), new ItemStack(ModItems.DRIED_TOBACCO_LEAF), 5.0F);
+		addDryingRecipe(new ItemStack(ModItems.TOBACCO_LEAF), new ItemStack(ModItems.DRIED_TOBACCO_LEAF), 5.0F);
 		
 	}
 

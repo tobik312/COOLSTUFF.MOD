@@ -21,8 +21,8 @@ public class ContainerDryingRack extends Container {
 		this.tileentity = tileentity;
 		
 		this.addSlotToContainer(new Slot(tileentity, 0, 56, 17));
-		this.addSlotToContainer(new FuelSlotDryingRack(tileentity, 1, 56, 63));
-		this.addSlotToContainer(new OutputSlotDryingRack(player.player, tileentity, 2, 112, 31));
+		this.addSlotToContainer(new FuelSlotDryingRack(tileentity, 1, 56, 53));
+		this.addSlotToContainer(new OutputSlotDryingRack(player.player, tileentity, 2, 116, 35));
 		
 		for(int y = 0; y < 3; y++) {
 			
