@@ -111,6 +111,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		this.inventory.set(index, stack);
 		
 		if(stack.getCount() > this.getInventoryStackLimit()) stack.setCount(this.getInventoryStackLimit());
+		
 		if(index == 0 && !flag) {
 			
 			this.totalCookTime = this.getCookTime(stack);
@@ -183,7 +184,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 			
 			if(this.isBurning() || !stack.isEmpty() && !((ItemStack)this.inventory.get(0)).isEmpty()) {
 				
-				if(!this.isBurning() && this.canSmelt()) {
+				if(!this.isBurning() && this.canDry()) {
 					
 					this.burnTime = getItemBurnTime(stack);
 					this.currentBurnTime = this.burnTime;
@@ -210,7 +211,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 					
 				}
 				
-				if(this.isBurning() && this.canSmelt()) {
+				if(this.isBurning() && this.canDry()) {
 					
 					++this.cookTime;
 					
@@ -218,7 +219,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 						
 						this.cookTime = 0;
 						this.totalCookTime = this.getCookTime((ItemStack)this.inventory.get(0));
-						this.smeltItem();
+						this.dryItem();
 						flag1 = true;
 						
 					}
@@ -253,7 +254,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		
 	}
 	
-	private boolean canSmelt() {
+	private boolean canDry() {
 		
 		if(((ItemStack)this.inventory.get(0)).isEmpty()) return false;
 		else {
@@ -264,9 +265,12 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 				
 				ItemStack output = (ItemStack)this.inventory.get(2);
 				if(output.isEmpty()) return true;
-				if(!output.isItemEqual(result)) return false;
-				int res = output.getCount() + result.getCount();
-				return res <= getInventoryStackLimit() && res <= output.getMaxStackSize();
+				
+				else if(!output.isItemEqual(result)) return false;
+				
+				else if(output.getCount() + result.getCount() <= this.getInventoryStackLimit() &&  output.getCount() + result.getCount() <= output.getMaxStackSize()) return true;
+				
+				else return output.getCount() + result.getCount() <= result.getMaxStackSize();
 				
 			}
 			
@@ -274,9 +278,9 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		
 	}
 	
-	public void smeltItem() {
+	public void dryItem() {
 		
-		if(this.canSmelt()) {
+		if(this.canDry()) {
 			
 			ItemStack input = (ItemStack)this.inventory.get(0);
 			ItemStack result = DryingRackRecipes.getInstance().getDryingResult(input);
@@ -294,6 +298,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	public static int getItemBurnTime(ItemStack fuel) {
 		
 		if(fuel.isEmpty()) return 0;
+		
 		else {
 			
 			Item item = fuel.getItem();

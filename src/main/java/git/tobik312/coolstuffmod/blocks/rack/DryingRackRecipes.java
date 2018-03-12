@@ -2,17 +2,14 @@ package git.tobik312.coolstuffmod.blocks.rack;
 
 import git.tobik312.coolstuffmod.items.ModItems;
 import net.minecraft.item.ItemStack;
-
 import java.util.Map;
 import java.util.Map.Entry;
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Table;
 
 public class DryingRackRecipes {
 	
 	private static final DryingRackRecipes INSTANCE = new DryingRackRecipes();
-	private final Table<ItemStack, ItemStack, ItemStack> dryingList = HashBasedTable.<ItemStack, ItemStack, ItemStack>create();
+	private final Map<ItemStack, ItemStack> dryingList = Maps.<ItemStack, ItemStack>newHashMap();
 	private final Map<ItemStack, Float> experienceList = Maps.<ItemStack, Float>newHashMap();
 	
 	public static DryingRackRecipes getInstance() {
@@ -30,21 +27,20 @@ public class DryingRackRecipes {
 	
 	public void addDryingRecipe(ItemStack input, ItemStack result, float experience) {
 		
-		if(getDryingResult(input) != ItemStack.EMPTY) return;
-		this.dryingList.put(input, input, result);
+		this.dryingList.put(input, result);
 		this.experienceList.put(result, Float.valueOf(experience));
 		
 	}
 	
 	public ItemStack getDryingResult(ItemStack input) {
 		
-		for(Entry<ItemStack, Map<ItemStack, ItemStack>> entry : this.dryingList.columnMap().entrySet()) {
+		for(Entry<ItemStack, ItemStack> entry : this.dryingList.entrySet()) {
 			
-			for(Entry<ItemStack, ItemStack> ent : entry.getValue().entrySet()) {
+			if (this.compareItemStacks(input, (ItemStack)entry.getKey())) {
 				
-				return (ItemStack)ent.getValue();
-				
-			}
+                return (ItemStack)entry.getValue();
+                
+            }
 			
 		}
 		
@@ -52,7 +48,13 @@ public class DryingRackRecipes {
 		
 	}
 	
-	public Table<ItemStack, ItemStack, ItemStack> getDryingList() {
+	private boolean compareItemStacks(ItemStack stack1, ItemStack stack2) {
+		
+        return stack2.getItem() == stack1.getItem() && (stack2.getMetadata() == 32767 || stack2.getMetadata() == stack1.getMetadata());
+        
+    }
+	
+	public Map<ItemStack, ItemStack> getDryingList() {
 		
 		return this.dryingList;
 		
@@ -62,7 +64,11 @@ public class DryingRackRecipes {
 		
 		for (Entry<ItemStack, Float> entry : this.experienceList.entrySet()) {
 			
-			return ((Float)entry.getValue()).floatValue();
+			if (this.compareItemStacks(stack, (ItemStack)entry.getKey())) {
+				
+                return ((Float)entry.getValue()).floatValue();
+                
+            }
 			
 		}
 		

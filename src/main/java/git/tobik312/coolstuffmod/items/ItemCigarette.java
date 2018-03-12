@@ -1,7 +1,6 @@
 package git.tobik312.coolstuffmod.items;
 
 import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
