@@ -3,6 +3,8 @@ package git.tobik312.coolstuffmod.items;
 
 import git.tobik312.coolstuffmod.CoolStuffMod;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;

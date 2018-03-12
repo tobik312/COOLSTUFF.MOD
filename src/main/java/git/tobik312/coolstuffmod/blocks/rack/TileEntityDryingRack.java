@@ -1,5 +1,6 @@
 package git.tobik312.coolstuffmod.blocks.rack;
 
+import git.tobik312.coolstuffmod.items.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -111,6 +112,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		this.inventory.set(index, stack);
 		
 		if(stack.getCount() > this.getInventoryStackLimit()) stack.setCount(this.getInventoryStackLimit());
+		
 		if(index == 0 && !flag) {
 			
 			this.totalCookTime = this.getCookTime(stack);
@@ -183,7 +185,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 			
 			if(this.isBurning() || !stack.isEmpty() && !((ItemStack)this.inventory.get(0)).isEmpty()) {
 				
-				if(!this.isBurning() && this.canSmelt()) {
+				if(!this.isBurning() && this.canDry()) {
 					
 					this.burnTime = getItemBurnTime(stack);
 					this.currentBurnTime = this.burnTime;
@@ -210,7 +212,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 					
 				}
 				
-				if(this.isBurning() && this.canSmelt()) {
+				if(this.isBurning() && this.canDry()) {
 					
 					++this.cookTime;
 					
@@ -218,7 +220,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 						
 						this.cookTime = 0;
 						this.totalCookTime = this.getCookTime((ItemStack)this.inventory.get(0));
-						this.smeltItem();
+						this.dryItem();
 						flag1 = true;
 						
 					}
@@ -253,36 +255,40 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		
 	}
 	
-	private boolean canSmelt() {
+	private boolean canDry() {
 		
-		if(((ItemStack)this.inventory.get(0)).isEmpty()) return false;
-		else {
+		return true;
+		/*
+		ItemStack input = (ItemStack)this.inventory.get(0);
+		
+		if(input == new ItemStack(ModItems.TOBACCO_LEAF)) {
 			
-			ItemStack result = DryingRackRecipes.getInstance().getDryingResult((ItemStack)this.inventory.get(0));
-			if(result.isEmpty()) return false;
-			else {
-				
-				ItemStack output = (ItemStack)this.inventory.get(2);
-				if(output.isEmpty()) return true;
-				if(!output.isItemEqual(result)) return false;
-				int res = output.getCount() + result.getCount();
-				return res <= getInventoryStackLimit() && res <= output.getMaxStackSize();
-				
-			}
+			ItemStack result = new ItemStack(ModItems.DRIED_TOBACCO_LEAF);
+			ItemStack output = (ItemStack)this.inventory.get(2);
+			
+			if(output.isEmpty()) return true;
+			
+			else if(!output.isItemEqual(result)) return false;
+			
+			else if(output.getCount() + result.getCount() <= this.getInventoryStackLimit() &&  output.getCount() + result.getCount() <= output.getMaxStackSize()) return true;
+			
+			else return output.getCount() + result.getCount() <= result.getMaxStackSize();
 			
 		}
 		
+		return false;
+		*/
 	}
 	
-	public void smeltItem() {
+	public void dryItem() {
 		
-		if(this.canSmelt()) {
+		if(this.canDry()) {
 			
 			ItemStack input = (ItemStack)this.inventory.get(0);
-			ItemStack result = DryingRackRecipes.getInstance().getDryingResult(input);
+			ItemStack result = new ItemStack(ModItems.DRIED_TOBACCO_LEAF);
 			ItemStack output = (ItemStack)this.inventory.get(2);
 			
-			if(output.isEmpty()) this.inventory.set(2, result.copy());
+			if(output.isEmpty()) this.inventory.set(2, new ItemStack(ModItems.DRIED_TOBACCO_LEAF, 1));
 			else if(output.getItem() == result.getItem()) output.grow(result.getCount());
 			
 			input.shrink(1);
@@ -294,6 +300,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	public static int getItemBurnTime(ItemStack fuel) {
 		
 		if(fuel.isEmpty()) return 0;
+		
 		else {
 			
 			Item item = fuel.getItem();

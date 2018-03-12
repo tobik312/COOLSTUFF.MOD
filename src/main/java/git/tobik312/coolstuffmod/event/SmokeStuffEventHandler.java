@@ -76,10 +76,10 @@ public class SmokeStuffEventHandler{
     	if(itemInHand instanceof ItemCigarette && ((ItemCigarette) itemInHand).inUse){
     		int actualPlayerTicks = playerTickCount.get(player);
     		playerTickCount.replace(player, ++actualPlayerTicks);
-    		/*if(actualPlayerTicks==80){
+    		if(actualPlayerTicks==120){
     			((ItemCigarette) itemInHand).inUse = false;
     			playerTickCount.replace(player,0);
-    		}*/
+    		}
     	}
 	}
 	
