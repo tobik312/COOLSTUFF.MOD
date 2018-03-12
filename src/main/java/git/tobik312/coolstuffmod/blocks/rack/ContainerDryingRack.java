@@ -57,17 +57,17 @@ public class ContainerDryingRack extends Container {
 			
 			IContainerListener listener = (IContainerListener)this.listeners.get(i);
 			
-			if(this.cookTime != this.tileentity.getField(1)) listener.sendWindowProperty(this, 1, this.tileentity.getField(1));
+			if(this.cookTime != this.tileentity.getField(2)) listener.sendWindowProperty(this, 2, this.tileentity.getField(2));
 			if(this.burnTime != this.tileentity.getField(0)) listener.sendWindowProperty(this, 0, this.tileentity.getField(0));
-			if(this.currentBurnTime != this.tileentity.getField(0)) listener.sendWindowProperty(this, 0, this.tileentity.getField(0));
-			if(this.totalCookTime != this.tileentity.getField(2)) listener.sendWindowProperty(this, 2, this.tileentity.getField(2));
+			if(this.currentBurnTime != this.tileentity.getField(1)) listener.sendWindowProperty(this, 1, this.tileentity.getField(1));
+			if(this.totalCookTime != this.tileentity.getField(3)) listener.sendWindowProperty(this, 3, this.tileentity.getField(3));
 			
 		}
 		
-		this.cookTime = this.tileentity.getField(1);
+		this.cookTime = this.tileentity.getField(2);
 		this.burnTime = this.tileentity.getField(0);
-		this.currentBurnTime = this.tileentity.getField(0);
-		this.totalCookTime = this.tileentity.getField(2);
+		this.currentBurnTime = this.tileentity.getField(1);
+		this.totalCookTime = this.tileentity.getField(3);
 		
 	}
 	
@@ -94,20 +94,18 @@ public class ContainerDryingRack extends Container {
 			ItemStack stack1 = slot.getStack();
 			stack = stack1.copy();
 			
-			if(index == 3) {
+			if(index == 2) {
 				
-				if(!this.mergeItemStack(stack1, 4, 40, true)) return ItemStack.EMPTY;
+				if(!this.mergeItemStack(stack1, 3, 39, true)) return ItemStack.EMPTY;
 				slot.onSlotChange(stack1, stack);
 				
 			}
 			
-			else if(index != 1 && index != 0) {		
-				
-				Slot slot1 = (Slot)this.inventorySlots.get(index + 1);
+			else if(index != 1 && index != 0) {
 				
 				if(!DryingRackRecipes.getInstance().getDryingResult(stack1).isEmpty()) {
 					
-					if(!this.mergeItemStack(stack1, 0, 2, false)) {
+					if(!this.mergeItemStack(stack1, 0, 1, false)) {
 						
 						return ItemStack.EMPTY;
 						
@@ -115,29 +113,17 @@ public class ContainerDryingRack extends Container {
 					
 					else if(TileEntityDryingRack.isItemFuel(stack1)) {
 						
-						if(!this.mergeItemStack(stack1, 2, 3, false)) return ItemStack.EMPTY;
+						if(!this.mergeItemStack(stack1, 1, 2, false)) return ItemStack.EMPTY;
 						
 					}
 					
-					else if(TileEntityDryingRack.isItemFuel(stack1)) {
+					else if(index >= 3 && index < 30) {
 						
-						if(!this.mergeItemStack(stack1, 2, 3, false)) return ItemStack.EMPTY;
-						
-					}
-					
-					else if(TileEntityDryingRack.isItemFuel(stack1)) {
-						
-						if(!this.mergeItemStack(stack1, 2, 3, false)) return ItemStack.EMPTY;
+						if(!this.mergeItemStack(stack1, 30, 39, false)) return ItemStack.EMPTY;
 						
 					}
 					
-					else if(index >= 3 && index < 31) {
-						
-						if(!this.mergeItemStack(stack1, 31, 40, false)) return ItemStack.EMPTY;
-						
-					}
-					
-					else if(index >= 31 && index < 40 && !this.mergeItemStack(stack1, 3, 31, false)) {
+					else if(index >= 30 && index < 39 && !this.mergeItemStack(stack1, 3, 30, false)) {
 						
 						return ItemStack.EMPTY;
 						
@@ -147,7 +133,7 @@ public class ContainerDryingRack extends Container {
 				
 			} 
 			
-			else if(!this.mergeItemStack(stack1, 3, 40, false)) {
+			else if(!this.mergeItemStack(stack1, 3, 39, false)) {
 				
 				return ItemStack.EMPTY;
 				

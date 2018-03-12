@@ -1,5 +1,7 @@
 package git.tobik312.coolstuffmod.blocks.rack;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,26 +16,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 
 public class TileEntityDryingRack extends TileEntity implements IInventory, ITickable {
 	
-	private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
-	private String customName;
-	
-	private int burnTime;
-	private int currentBurnTime;
-	private int cookTime;
-	private int totalCookTime;
+	private ItemStack[] dryerItemStacks = new ItemStack[3];
+    private int dryerBurnTime;
+    private int currentItemBurnTime;
+    private int cookTime;
+    private int totalCookTime;
+    private String customName;
 	
 	@Override
 	public String getName() {
@@ -65,14 +66,14 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	@Override
 	public int getSizeInventory() {
 		
-		return this.inventory.size();
+		return this.dryerItemStacks.length;
 		
 	}
 	
 	@Override
 	public boolean isEmpty() {
 		
-		for(ItemStack stack : this.inventory) {
+		for(ItemStack stack : this.dryerItemStacks) {
 			
 			if(!stack.isEmpty()) return false;
 			
@@ -85,65 +86,100 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	@Override
 	public ItemStack getStackInSlot(int index) {
 		
-		return (ItemStack)this.inventory.get(index);
+		return this.dryerItemStacks[index];
 		
 	}
-
-	@Override
+	
+	@SuppressWarnings("unchecked")
+	@Nullable
 	public ItemStack decrStackSize(int index, int count) {
 		
-		return ItemStackHelper.getAndSplit(this.inventory, index, count);
-		
-	}
+        return ItemStackHelper.getAndSplit(Arrays.asList(this.dryerItemStacks), index, count);
+        
+    }
 
-	@Override
+	@SuppressWarnings("unchecked")
+	@Nullable
 	public ItemStack removeStackFromSlot(int index) {
 		
-		return ItemStackHelper.getAndRemove(this.inventory, index);
+		return ItemStackHelper.getAndRemove(Arrays.asList(this.dryerItemStacks), index);
 		
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(int index, @Nullable ItemStack stack) {
 		
-		ItemStack itemstack = (ItemStack)this.inventory.get(index);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
-		this.inventory.set(index, stack);
-		
-		if(stack.getCount() > this.getInventoryStackLimit()) stack.setCount(this.getInventoryStackLimit());
-		if(index == 0 && !flag) {
-			
-			this.totalCookTime = this.getCookTime(stack);
-			this.cookTime = 0;
-			this.markDirty();
-			
-		}
-		
-	}
+        boolean flag = stack != null && stack.isItemEqual(this.dryerItemStacks[index]) && ItemStack.areItemStackTagsEqual(stack, this.dryerItemStacks[index]);
+        this.dryerItemStacks[index] = stack;
+
+        if (stack != null && stack.getCount() > this.getInventoryStackLimit()) {
+        	
+            stack.setCount(this.getInventoryStackLimit());
+            
+        }
+
+        if (index == 0 && !flag) {
+        	
+            this.totalCookTime = this.getCookTime(stack);
+            this.cookTime = 0;
+            this.markDirty();
+            
+        }
+}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		
-		super.readFromNBT(compound);
-		this.inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
-		ItemStackHelper.loadAllItems(compound, this.inventory);
-		this.burnTime = compound.getInteger("BurnTime");
-		this.cookTime = compound.getInteger("CookTime");
-		this.totalCookTime = compound.getInteger("CookTimeTotal");
-		this.currentBurnTime = getItemBurnTime((ItemStack)this.inventory.get(1));
-		
-		if(compound.hasKey("CustomName", 8)) this.setCustomName(compound.getString("CustomName"));
-		
-	}
+        super.readFromNBT(compound);
+        NBTTagList nbttaglist = compound.getTagList("Items", 10);
+        this.dryerItemStacks = new ItemStack[this.getSizeInventory()];
+
+        for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+        	
+            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+            int j = nbttagcompound.getByte("Slot");
+
+            if (j >= 0 && j < this.dryerItemStacks.length){
+            	
+                this.dryerItemStacks[j] = new ItemStack(nbttagcompound);
+                
+            }
+            
+        }
+
+        this.dryerBurnTime = compound.getShort("BurnTime");
+        this.cookTime = compound.getShort("CookTime");
+        this.totalCookTime = compound.getShort("CookTimeTotal");
+        this.currentItemBurnTime = getItemBurnTime(this.dryerItemStacks[1]);
+
+        if (compound.hasKey("CustomName", 8)) {
+        	
+            this.customName = compound.getString("CustomName");
+            
+        }
+}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		
 		super.writeToNBT(compound);
-		compound.setInteger("BurnTime", (short)this.burnTime);
+		compound.setInteger("BurnTime", (short)this.dryerBurnTime);
 		compound.setInteger("CookTime", (short)this.cookTime);
 		compound.setInteger("CookTimeTotal", (short)this.totalCookTime);
-		ItemStackHelper.saveAllItems(compound, this.inventory);
+		NBTTagList nbttaglist = new NBTTagList();
+		
+		for (int i = 0; i < this.dryerItemStacks.length; ++i) {
+			
+            if (this.dryerItemStacks[i] != null) {
+            	
+                NBTTagCompound nbttagcompound = new NBTTagCompound();
+                nbttagcompound.setByte("Slot", (byte)i);
+                this.dryerItemStacks[i].writeToNBT(nbttagcompound);
+                nbttaglist.appendTag(nbttagcompound);
+                
+            }
+            
+        }
 		
 		if(this.hasCustomName()) compound.setString("CustomName", this.customName);
 		return compound;
@@ -159,7 +195,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	
 	public boolean isBurning() {
 		
-		return this.burnTime > 0;
+		return this.dryerBurnTime > 0;
 		
 	}
 	
@@ -173,81 +209,91 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	public void update() {
 		
 		boolean flag = this.isBurning();
-		boolean flag1 = false;
-		
-		if(this.isBurning()) --this.burnTime;
-		
-		if(!this.world.isRemote) {
-			
-			ItemStack stack = (ItemStack)this.inventory.get(1);
-			
-			if(this.isBurning() || !stack.isEmpty() && !((ItemStack)this.inventory.get(0)).isEmpty()) {
-				
-				if(!this.isBurning() && this.canSmelt()) {
-					
-					this.burnTime = getItemBurnTime(stack);
-					this.currentBurnTime = this.burnTime;
-					
-					if(this.isBurning()) {
-						
-						flag1 = true;
-						
-						if(!stack.isEmpty()) {
-							
-							Item item = stack.getItem();
-							stack.shrink(1);
-							
-							if(stack.isEmpty()) {
-								
-								ItemStack item1 = item.getContainerItem(stack);
-								this.inventory.set(1, item1);
-								
-							}
-							
-						}
-						
-					}
-					
-				}
-				
-				if(this.isBurning() && this.canSmelt()) {
-					
-					++this.cookTime;
-					
-					if(this.cookTime == this.totalCookTime) {
-						
-						this.cookTime = 0;
-						this.totalCookTime = this.getCookTime((ItemStack)this.inventory.get(0));
-						this.smeltItem();
-						flag1 = true;
-						
-					}
-				} 
-				
-				else this.cookTime = 0;
-				
-			}
-			
-			else if(!this.isBurning() && this.cookTime > 0) {
-				
-				this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
-				
-			}
-			
-			if(flag != this.isBurning()) {
-				
-				flag1 = true;
-				DryingRack.setState(this.isBurning(), this.world, this.pos);
-				
-			}
-			
-		} 
-		
-		if(flag1) this.markDirty();
+        boolean flag1 = false;
+
+        if (this.isBurning()) {
+        	
+            --this.dryerBurnTime;
+            
+        }
+
+        if (!this.world.isRemote) {
+        	
+            if (this.isBurning() || this.dryerItemStacks[1] != null && this.dryerItemStacks[0] != null) {
+            	
+                if (!this.isBurning() && this.canSmelt()) {
+                	
+                    this.dryerBurnTime = getItemBurnTime(this.dryerItemStacks[1]);
+                    this.currentItemBurnTime = this.dryerBurnTime;
+
+                    if (this.isBurning()) {
+                    	
+                    	flag1 = true;
+
+                        if (this.dryerItemStacks[1] != null) {
+                        	
+                            this.dryerItemStacks[1].setCount(this.dryerItemStacks[1].getCount()-1);
+
+                            if (this.dryerItemStacks[1].getCount() == 0) {
+                            	
+                                Item item = this.dryerItemStacks[1].getItem().getContainerItem();
+                                this.dryerItemStacks[1] = item != null ? new ItemStack(item) : null;
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+
+                if (this.isBurning() && this.canSmelt()) {
+                	
+                    ++this.cookTime;
+
+                    if (this.cookTime == this.totalCookTime) {
+                    	
+                        this.cookTime = 0;
+                        this.totalCookTime = this.getCookTime(this.dryerItemStacks[0]);
+                        this.smeltItem();
+                        flag1 = true;
+                        
+                    }
+                    
+                }
+                
+                else {
+                	
+                    this.cookTime = 0;
+                    
+                }
+                
+            }
+            
+            else if (!this.isBurning() && this.cookTime > 0) {
+            	
+                this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
+                
+            }
+
+            if (flag != this.isBurning()) {
+            	
+                flag1 = true;
+                DryingRack.setState(this.isBurning(), this.world, this.pos);
+                
+            }
+            
+        }
+
+        if (flag1) {
+        	
+            this.markDirty();
+            
+        }
 		
 	}
 	
-	public int getCookTime(ItemStack input) {
+	public int getCookTime(@Nullable ItemStack input) {
 		
 		return 400;
 		
@@ -255,48 +301,57 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	
 	private boolean canSmelt() {
 		
-		if(((ItemStack)this.inventory.get(0)).isEmpty()) return false;
-		else {
-			
-			ItemStack result = DryingRackRecipes.getInstance().getDryingResult((ItemStack)this.inventory.get(0));
-			if(result.isEmpty()) return false;
-			else {
-				
-				ItemStack output = (ItemStack)this.inventory.get(2);
-				if(output.isEmpty()) return true;
-				if(!output.isItemEqual(result)) return false;
-				int res = output.getCount() + result.getCount();
-				return res <= getInventoryStackLimit() && res <= output.getMaxStackSize();
-				
-			}
-			
-		}
-		
-	}
+        if (this.dryerItemStacks[0] == null) {
+        	
+            return false;
+            
+        }
+        
+        else {
+        	
+            ItemStack itemstack = DryingRackRecipes.getInstance().getDryingResult(this.dryerItemStacks[0]);
+            return itemstack == null ? false : (this.dryerItemStacks[2] == null ? true : (!this.dryerItemStacks[2].isItemEqual(itemstack) ? false : (this.dryerItemStacks[2].getCount() < this.getInventoryStackLimit() && this.dryerItemStacks[2].getCount() < this.dryerItemStacks[2].getMaxStackSize() ? true : this.dryerItemStacks[2].getCount() < itemstack.getMaxStackSize())));
+        
+        }
+        
+}
 	
 	public void smeltItem() {
 		
-		if(this.canSmelt()) {
-			
-			ItemStack input = (ItemStack)this.inventory.get(0);
-			ItemStack result = DryingRackRecipes.getInstance().getDryingResult(input);
-			ItemStack output = (ItemStack)this.inventory.get(2);
-			
-			if(output.isEmpty()) this.inventory.set(2, result.copy());
-			else if(output.getItem() == result.getItem()) output.grow(result.getCount());
-			
-			input.shrink(1);
-			
-		}
-		
+        if (this.canSmelt()) {
+        	
+            ItemStack itemstack = DryingRackRecipes.getInstance().getDryingResult(this.dryerItemStacks[0]);
+
+            if (this.dryerItemStacks[2] == null) {
+            	
+                this.dryerItemStacks[2] = itemstack.copy();
+                
+            }
+            
+            else if (this.dryerItemStacks[2].getItem() == itemstack.getItem()) {
+            	
+                this.dryerItemStacks[0].setCount(this.dryerItemStacks[0].getCount()+1);
+                
+            }
+
+            this.dryerItemStacks[0].setCount(this.dryerItemStacks[0].getCount()-1);
+
+            if (this.dryerItemStacks[0].getCount()<= 0) {
+            	
+                this.dryerItemStacks[0] = null;
+                
+            }
+            
+        }
+        
 	}
 	
-	public static int getItemBurnTime(ItemStack fuel) {
+	public static int getItemBurnTime(ItemStack stack) {
 		
-		if(fuel.isEmpty()) return 0;
+		if(stack.isEmpty()) return 0;
 		else {
 			
-			Item item = fuel.getItem();
+			Item item = stack.getItem();
 
 			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.AIR) {
 				
@@ -317,15 +372,15 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 			if (item == Item.getItemFromBlock(Blocks.SAPLING)) return 100;
 			if (item == Items.BLAZE_ROD) return 2400;
 
-			return ForgeEventFactory.getItemBurnTime(fuel);
+			return 0;
 			
 		}
 		
 	}
 		
-	public static boolean isItemFuel(ItemStack fuel) {
+	public static boolean isItemFuel(ItemStack stack) {
 		
-		return getItemBurnTime(fuel) > 0;
+		return getItemBurnTime(stack) > 0;
 		
 	}
 	
@@ -346,7 +401,7 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		
 		if(index == 2) return false;
-		else if(index == 0) return true;
+		else if(index != 1) return true;
 		else {
 			
 			return isItemFuel(stack);
@@ -368,11 +423,11 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		
 		case 0:
 			
-			return this.burnTime;
+			return this.dryerBurnTime;
 			
 		case 1:
 			
-			return this.currentBurnTime;
+			return this.currentItemBurnTime;
 			
 		case 2:
 			
@@ -397,12 +452,12 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 		
 		case 0:
 			
-			this.burnTime = value;
+			this.dryerBurnTime = value;
 			break;
 			
 		case 1:
 			
-			this.currentBurnTime = value;
+			this.currentItemBurnTime = value;
 			break;
 			
 		case 2:
@@ -428,8 +483,12 @@ public class TileEntityDryingRack extends TileEntity implements IInventory, ITic
 	@Override
 	public void clear() {
 		
-		this.inventory.clear();
-		
-	}
+        for (int i = 0; i < this.dryerItemStacks.length; ++i) {
+        	
+            this.dryerItemStacks[i] = null;
+            
+        }
+        
+    }
 	
 }
