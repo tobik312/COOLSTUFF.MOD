@@ -13,11 +13,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CigaretteItem extends ItemBuilder{
+public class ItemCigarette extends ItemBuilder{
 	
 	public boolean inUse = false;
 
-	public CigaretteItem() {
+	public ItemCigarette() {
 		super("cigarette", 20);
 	}
 	

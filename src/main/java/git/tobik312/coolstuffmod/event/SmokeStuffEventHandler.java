@@ -1,9 +1,9 @@
-package git.tobik312.coolstuffmod;
+package git.tobik312.coolstuffmod.event;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import git.tobik312.coolstuffmod.items.CigaretteItem;
+import git.tobik312.coolstuffmod.items.ItemCigarette;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
@@ -27,7 +27,7 @@ public class SmokeStuffEventHandler {
 	public static void onPlayerRender(RenderPlayerEvent.Pre event) {
 		EntityPlayer player = event.getEntityPlayer();
 		Item itemInHand = player.getHeldItem(EnumHand.MAIN_HAND).getItem();
-		if(itemInHand instanceof CigaretteItem && ((CigaretteItem) itemInHand).inUse){
+		if(itemInHand instanceof ItemCigarette && ((ItemCigarette) itemInHand).inUse){
 			event.getRenderer().getMainModel().bipedRightArm.isHidden = true;
 		}
 			
@@ -38,7 +38,7 @@ public class SmokeStuffEventHandler {
     public static void onPlayerRender(RenderPlayerEvent.Post event) {
     	EntityPlayer player = event.getEntityPlayer();
     	Item itemInHand = player.getHeldItem(EnumHand.MAIN_HAND).getItem();
-    	if(itemInHand instanceof CigaretteItem && ((CigaretteItem) itemInHand).inUse){
+    	if(itemInHand instanceof ItemCigarette && ((ItemCigarette) itemInHand).inUse){
     		ResourceLocation texture = event.getRenderer().getEntityTexture((AbstractClientPlayer) player);
     		event.getRenderer().bindTexture(texture);
     		event.getRenderer().getMainModel().bipedRightArm.isHidden=false;
@@ -61,11 +61,11 @@ public class SmokeStuffEventHandler {
     	EntityPlayer player = event.player;
     	Item itemInHand = player.getHeldItem(EnumHand.MAIN_HAND).getItem();
 		if(!playerTickCount.containsKey(player)) playerTickCount.put(player, 0);
-    	if(itemInHand instanceof CigaretteItem && ((CigaretteItem) itemInHand).inUse){
+    	if(itemInHand instanceof ItemCigarette && ((ItemCigarette) itemInHand).inUse){
     		int actualPlayerTicks = playerTickCount.get(player);
     		playerTickCount.replace(player, ++actualPlayerTicks);
     		if(actualPlayerTicks==80){
-    			((CigaretteItem) itemInHand).inUse = false;
+    			((ItemCigarette) itemInHand).inUse = false;
     			playerTickCount.replace(player,0);
     		}
     	}
