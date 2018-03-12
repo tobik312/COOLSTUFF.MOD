@@ -1,0 +1,29 @@
+{
+	"type":"minecraft:crafting_shaped",
+	"pattern":
+	[
+		"PPP",
+		"FLL",
+		"PPP"
+	],
+	"key":
+	{
+		"P":
+		{
+			"item":"coolstuffmod:cigarette_paper"
+		},
+		"F":
+		{
+			"item":"coolstuffmod:filter"
+		},
+		"L":
+		{
+			"item":"coolstuffmod:dried_tobacco_leaf"
+		}
+	},
+	"result":
+	{
+		"item":"coolstuffmod:cigarette",
+		"count":1
+	}
+}

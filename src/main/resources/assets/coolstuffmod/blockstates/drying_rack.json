@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "burning=false,facing=north": { "model": "coolstuffmod:drying_rack" },
+        "burning=false,facing=east":  { "model": "coolstuffmod:drying_rack", "y": 90 },
+        "burning=false,facing=south": { "model": "coolstuffmod:drying_rack", "y": 180 },
+        "burning=false,facing=west":  { "model": "coolstuffmod:drying_rack", "y": 270 },
+        "burning=true,facing=north": { "model": "coolstuffmod:lit_drying_rack" },
+        "burning=true,facing=east":  { "model": "coolstuffmod:lit_drying_rack", "y": 90 },
+        "burning=true,facing=south": { "model": "coolstuffmod:lit_drying_rack", "y": 180 },
+        "burning=true,facing=west":  { "model": "coolstuffmod:lit_drying_rack", "y": 270 }
+    }
+}
