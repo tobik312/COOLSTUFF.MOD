@@ -2,5 +2,12 @@
 	"parent": "item/generated",
 	"textures": {
 		"layer0": "coolstuffmod:items/cigarette"
-	}
+	},
+	"display": {
+        "thirdperson_righthand": {
+            "rotation": [ -45, 0, 0 ],
+            "translation": [ -1, -2, 2.5 ],
+            "scale": [ 0.6, 0.6, 0.6 ]
+        }
+    }
 }
