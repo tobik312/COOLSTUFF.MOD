@@ -1,8 +1,8 @@
 package git.tobik312.coolstuffmod.blocks;
 
 import git.tobik312.coolstuffmod.CoolStuffMod;
-import git.tobik312.coolstuffmod.CustomModel;
 import git.tobik312.coolstuffmod.items.ModItems;
+import git.tobik312.coolstuffmod.utils.CustomModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;

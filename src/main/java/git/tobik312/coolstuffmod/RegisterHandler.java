@@ -2,6 +2,7 @@ package git.tobik312.coolstuffmod;
 
 import git.tobik312.coolstuffmod.blocks.ModBlocks;
 import git.tobik312.coolstuffmod.items.ModItems;
+import git.tobik312.coolstuffmod.utils.CustomModel;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
