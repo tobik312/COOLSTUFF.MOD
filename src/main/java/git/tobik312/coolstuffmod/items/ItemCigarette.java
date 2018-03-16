@@ -55,6 +55,7 @@ public class ItemCigarette extends ItemBuilder {
 		return CoolStuffItemAction.SMOKING;
 	}
 	
+	@Override
 	public int getMaxItemUseDuration(ItemStack itemStack){
 		return 30;
 	}
