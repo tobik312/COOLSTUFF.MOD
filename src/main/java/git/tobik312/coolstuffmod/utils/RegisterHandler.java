@@ -1,8 +1,10 @@
-package git.tobik312.coolstuffmod;
+package git.tobik312.coolstuffmod.utils;
 
+import git.tobik312.coolstuffmod.CoolStuffMod;
+import git.tobik312.coolstuffmod.GuiHandler;
+import git.tobik312.coolstuffmod.TileEntityHandler;
 import git.tobik312.coolstuffmod.blocks.ModBlocks;
 import git.tobik312.coolstuffmod.items.ModItems;
-import git.tobik312.coolstuffmod.utils.CustomModel;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -29,14 +31,14 @@ public class RegisterHandler {
 	public static void onModelRegister(ModelRegistryEvent event){
 		
 		for(Item item : ModItems.ITEMS){
-			if(item instanceof CustomModel){
-				((CustomModel) item).registerModels();
+			if(item instanceof RegisterModel){
+				((RegisterModel) item).registerModels();
 			}
 		}
 		
 		for(Block block : ModBlocks.BLOCKS){
-			if(block instanceof CustomModel){
-				((CustomModel)block).registerModels();
+			if(block instanceof RegisterModel){
+				((RegisterModel)block).registerModels();
 			}
 }
 		

@@ -3,6 +3,7 @@ package git.tobik312.coolstuffmod;
 import git.tobik312.coolstuffmod.items.ModItems;
 import git.tobik312.coolstuffmod.proxy.CommonProxy;
 import git.tobik312.coolstuffmod.utils.Reference;
+import git.tobik312.coolstuffmod.utils.RegisterHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;

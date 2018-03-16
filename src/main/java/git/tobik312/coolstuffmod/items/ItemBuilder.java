@@ -3,9 +3,10 @@ package git.tobik312.coolstuffmod.items;
 import git.tobik312.coolstuffmod.CoolStuffMod;
 import git.tobik312.coolstuffmod.utils.CoolStuffItemAction;
 import git.tobik312.coolstuffmod.utils.ItemCoolStuff;
+import git.tobik312.coolstuffmod.utils.RegisterModel;
 import net.minecraft.item.Item;
 
-public class ItemBuilder extends Item implements ItemCoolStuff{
+public class ItemBuilder extends Item implements RegisterModel,ItemCoolStuff{
 	
 	public ItemBuilder(String name,int maxSize){
 		setCreativeTab(CoolStuffMod.CREATIVE_TAB);

@@ -2,13 +2,13 @@ package git.tobik312.coolstuffmod.blocks;
 
 import git.tobik312.coolstuffmod.CoolStuffMod;
 import git.tobik312.coolstuffmod.items.ModItems;
-import git.tobik312.coolstuffmod.utils.CustomModel;
+import git.tobik312.coolstuffmod.utils.RegisterModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
-public class BlockBuilder extends Block implements CustomModel{
+public class BlockBuilder extends Block implements RegisterModel{
 	
 	public BlockBuilder(String name, Material material) {
 		
@@ -28,5 +28,6 @@ public class BlockBuilder extends Block implements CustomModel{
 		CoolStuffMod.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
 		
 	}
+
 	
 }
