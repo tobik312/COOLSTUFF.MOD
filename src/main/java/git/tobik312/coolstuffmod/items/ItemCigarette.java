@@ -27,9 +27,9 @@ public class ItemCigarette extends ItemBuilder {
 		if(this.getCoolStuffUseAction()==CoolStuffItemAction.SMOKING && hand==EnumHand.MAIN_HAND){
 			player.setActiveHand(hand);
 	        return new ActionResult<ItemStack>(EnumActionResult.PASS,stack);
-		}else{
-	        return new ActionResult<ItemStack>(EnumActionResult.FAIL,stack);
 		}
+	        
+		return new ActionResult<ItemStack>(EnumActionResult.FAIL,stack);
     }
 	
 	/**
